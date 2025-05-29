@@ -1,0 +1,182 @@
+definitions:
+  github_com_leomirandadev_capsulas_internal_models.Capsula:
+    properties:
+      created_at:
+        type: string
+      id:
+        type: string
+      name:
+        type: string
+      open_date:
+        type: string
+      sent:
+        type: boolean
+    type: object
+  github_com_leomirandadev_capsulas_internal_models.CreateCapsulaReq:
+    properties:
+      name:
+        type: string
+      open_date:
+        example: "2025-12-10"
+        type: string
+    type: object
+  github_com_leomirandadev_capsulas_internal_models.CreateMessageReq:
+    properties:
+      email:
+        type: string
+      message:
+        type: string
+      photo_url:
+        type: string
+    type: object
+  github_com_leomirandadev_capsulas_pkg_customerr.Error:
+    properties:
+      details: {}
+      message:
+        type: string
+    type: object
+info:
+  contact: {}
+paths:
+  /v1/capsulas:
+    post:
+      consumes:
+      - application/json
+      description: Create Capsula
+      parameters:
+      - description: create new capsula
+        in: body
+        name: capsula
+        required: true
+        schema:
+          $ref: '#/definitions/github_com_leomirandadev_capsulas_internal_models.CreateCapsulaReq'
+      produces:
+      - application/json
+      responses:
+        "201":
+          description: Created
+          schema:
+            $ref: '#/definitions/github_com_leomirandadev_capsulas_internal_models.Capsula'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/github_com_leomirandadev_capsulas_pkg_customerr.Error'
+        "401":
+          description: Unauthorized
+          schema:
+            $ref: '#/definitions/github_com_leomirandadev_capsulas_pkg_customerr.Error'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/github_com_leomirandadev_capsulas_pkg_customerr.Error'
+      tags:
+      - capsulas
+  /v1/capsulas/{id}:
+    get:
+      consumes:
+      - application/json
+      description: Get one capsula
+      parameters:
+      - description: CapsulaID
+        in: path
+        name: id
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/github_com_leomirandadev_capsulas_internal_models.Capsula'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/github_com_leomirandadev_capsulas_pkg_customerr.Error'
+        "401":
+          description: Unauthorized
+          schema:
+            $ref: '#/definitions/github_com_leomirandadev_capsulas_pkg_customerr.Error'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/github_com_leomirandadev_capsulas_pkg_customerr.Error'
+      tags:
+      - capsulas
+  /v1/capsulas/{id}/message:
+    post:
+      consumes:
+      - application/json
+      description: Create Capsula message
+      parameters:
+      - description: CapsulaID
+        in: path
+        name: id
+        required: true
+        type: string
+      - description: create new capsula
+        in: body
+        name: message
+        required: true
+        schema:
+          $ref: '#/definitions/github_com_leomirandadev_capsulas_internal_models.CreateMessageReq'
+      produces:
+      - application/json
+      responses:
+        "201":
+          description: Created
+          schema:
+            $ref: '#/definitions/github_com_leomirandadev_capsulas_internal_models.Capsula'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/github_com_leomirandadev_capsulas_pkg_customerr.Error'
+        "401":
+          description: Unauthorized
+          schema:
+            $ref: '#/definitions/github_com_leomirandadev_capsulas_pkg_customerr.Error'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/github_com_leomirandadev_capsulas_pkg_customerr.Error'
+      tags:
+      - capsulas
+  /v1/capsulas/photo/upload:
+    post:
+      consumes:
+      - application/json
+      description: Capsula upload image
+      parameters:
+      - description: image
+        in: formData
+        name: image
+        required: true
+        type: file
+      produces:
+      - application/json
+      responses:
+        "204":
+          description: No Content
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/github_com_leomirandadev_capsulas_pkg_customerr.Error'
+        "401":
+          description: Unauthorized
+          schema:
+            $ref: '#/definitions/github_com_leomirandadev_capsulas_pkg_customerr.Error'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/github_com_leomirandadev_capsulas_pkg_customerr.Error'
+      security:
+      - BearerAuth: []
+      tags:
+      - capsulas
+securityDefinitions:
+  BearerAuth:
+    description: Type "Bearer" before paste the token
+    in: header
+    name: Authorization
+    type: apiKey
+swagger: "2.0"
